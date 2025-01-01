@@ -11,25 +11,30 @@ const RestaurantMenu = () => {
 let {id} = useParams();
 let menu = useResinfo(id);
 let name = menu?.cards[menu?.cards.length-1]?.card?.card?.name;
-//console.log(name)
+//const [showItems,setshowItems] = useState(false);
+const [showIdx, setshowIdx] = useState(0)
+
 if(menu==null){
     return <Shimmer />
 }
 let resmenu = menu?.cards[2]?.card?.card?.itemCards;
-console.log(resmenu)
+
 let filteredlist = menu?.cards.filter(m => m?.card?.card?.["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory");
 
-console.log(filteredlist)
 
 return (
     <div className="res-menu text-center">
     <h1 className="my-5 text-2xl">{name}</h1>
-    <ul>
+    {/* <ul>
     {resmenu.map(cus => <li key={cus?.card?.info?.id}>{cus?.card?.info?.name}</li>)}
-    </ul>
-    {/* {
-        <Restaurantcategory data={} />
-    } */}
+    </ul> */}
+      
+        {
+            filteredlist.map((category , index) => <Restaurantcategory key = {category?.card?.card?.info?.id} data = {category?.card?.card} showItems={showIdx===index?true:false} setshowIdx = {() => setshowIdx(index)} />)
+        }
+     
+     
+    
     </div>
 )
 
